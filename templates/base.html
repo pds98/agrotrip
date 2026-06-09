@@ -14,8 +14,13 @@
 <header class="site-header" id="site-header">
     <div class="container header-inner">
         <a href="{% url 'trips:home' %}" class="brand">
-            <span class="brand-leaf">🌱</span>
-            <span class="brand-text">Agro<span class="brand-accent">Trip</span></span>
+            {# Pour utiliser votre logo : déposez le fichier dans static/img/logo.png #}
+            <img src="{% static 'img/logo.png' %}" alt="AgroTrip" class="brand-logo"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+            <span class="brand-fallback" style="display:none;align-items:center;gap:.4rem;">
+                <span class="brand-leaf">🌱</span>
+                <span class="brand-text">Agro<span class="brand-accent">Trip</span></span>
+            </span>
         </a>
         <nav class="main-nav" id="main-nav">
             <a href="{% url 'trips:home' %}">Accueil</a>

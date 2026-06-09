@@ -60,6 +60,7 @@ h1,h2,h3,h4{font-family:'Quicksand','Poppins',sans-serif;line-height:1.2;}
 }
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;}
 .brand{display:flex;align-items:center;gap:.4rem;font-family:'Quicksand';font-weight:700;font-size:1.5rem;}
+.brand-logo{height:52px;width:auto;display:block;}
 .brand-leaf{font-size:1.6rem;}
 .brand-text{color:var(--vert-fonce);}
 .brand-accent{color:var(--orange);}
