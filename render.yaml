@@ -1,0 +1,26 @@
+# Configuration de déploiement Render (Infrastructure as Code).
+# Si vous connectez ce dépôt via "Blueprint", Render lit ce fichier
+# et crée automatiquement le service web + la base PostgreSQL.
+services:
+  - type: web
+    name: agrotrip
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn agrotrip.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true          # Render génère une clé secrète sûre
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.12.4"
+      - key: DATABASE_URL            # relié à la base ci-dessous
+        fromDatabase:
+          name: agrotrip-db
+          property: connectionString
+
+databases:
+  - name: agrotrip-db
+    plan: free
+    databaseName: agrotrip

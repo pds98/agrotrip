@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AgroTrip — L'agriculture en immersion{% endblock %}</title>
+    <meta name="description" content="AgroTrip : camps agricoles et ateliers pratiques d'agriculture. Découvrez l'agriculture en immersion, visitez des fermes et vivez une expérience unique.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="site-header" id="site-header">
+    <div class="container header-inner">
+        <a href="{% url 'trips:home' %}" class="brand">
+            <span class="brand-leaf">🌱</span>
+            <span class="brand-text">Agro<span class="brand-accent">Trip</span></span>
+        </a>
+        <nav class="main-nav" id="main-nav">
+            <a href="{% url 'trips:home' %}">Accueil</a>
+            <a href="{% url 'trips:home' %}#a-venir">À venir</a>
+            <a href="{% url 'trips:home' %}#passes">Réalisés</a>
+            <a href="{% url 'trips:liste' %}">Tous les AgroTrips</a>
+            <a href="{% url 'trips:home' %}#a-venir" class="btn btn-primary btn-sm">S'inscrire</a>
+        </nav>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu">☰</button>
+    </div>
+</header>
+
+{% if messages %}
+<div class="container">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div>
+            <div class="brand brand-footer">
+                <span class="brand-leaf">🌱</span>
+                <span class="brand-text">Agro<span class="brand-accent">Trip</span></span>
+            </div>
+            <p class="footer-tagline">L'agriculture en immersion. Des camps et ateliers
+            pour découvrir, apprendre et vivre l'agriculture autrement.</p>
+        </div>
+        <div>
+            <h4>Navigation</h4>
+            <a href="{% url 'trips:home' %}">Accueil</a>
+            <a href="{% url 'trips:home' %}#a-venir">AgroTrips à venir</a>
+            <a href="{% url 'trips:home' %}#passes">AgroTrips réalisés</a>
+            <a href="{% url 'trips:liste' %}">Tous les AgroTrips</a>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <p>📧 contact@agrotrip.com</p>
+            <p>📞 +221 00 000 00 00</p>
+            <p>📍 Dakar, Sénégal</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© {% now "Y" %} AgroTrip — Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

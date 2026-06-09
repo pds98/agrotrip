@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Inscription confirmée — AgroTrip{% endblock %}
+
+{% block content %}
+<section class="succes-page">
+    <div class="container succes-card">
+        <div class="succes-icon">✅</div>
+        <h1>Inscription confirmée !</h1>
+        <p>Merci pour votre inscription à l'AgroTrip <strong>« {{ agrotrip.titre }} »</strong>.</p>
+        <p>Un email de confirmation vient de vous être envoyé. Notre équipe vous
+        contactera prochainement pour finaliser les détails de votre participation.</p>
+        <div class="succes-actions">
+            <a href="{{ agrotrip.get_absolute_url }}" class="btn btn-outline">Revoir l'AgroTrip</a>
+            <a href="{% url 'trips:home' %}" class="btn btn-primary">Retour à l'accueil</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

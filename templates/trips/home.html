@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+{# ============================ SLIDER ============================ #}
+<section class="slider" id="slider">
+    <div class="slides">
+        {% for trip in slides %}
+        <div class="slide {% if forloop.first %}active{% endif %}"
+             style="background-image:linear-gradient(rgba(20,40,15,.55),rgba(20,40,15,.65)),url('{{ trip.cover }}');">
+            <div class="slide-content container">
+                <span class="slide-badge">🌍 AgroTrip</span>
+                <h1>{{ trip.titre }}</h1>
+                <p>{{ trip.description_courte }}</p>
+                <div class="slide-actions">
+                    <a href="{{ trip.get_absolute_url }}" class="btn btn-primary">Découvrir cet AgroTrip</a>
+                    <a href="#a-venir" class="btn btn-outline-light">Voir les AgroTrips à venir</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="slide active" style="background:linear-gradient(135deg,#2e7d32,#558b2f);">
+            <div class="slide-content container">
+                <span class="slide-badge">🌍 AgroTrip</span>
+                <h1>L'agriculture en immersion</h1>
+                <p>Des camps et ateliers pratiques pour découvrir le monde agricole.</p>
+                <a href="#a-venir" class="btn btn-primary">Découvrir les AgroTrips</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if slides|length > 1 %}
+    <button class="slider-arrow prev" id="slide-prev" aria-label="Précédent">‹</button>
+    <button class="slider-arrow next" id="slide-next" aria-label="Suivant">›</button>
+    <div class="slider-dots" id="slider-dots">
+        {% for trip in slides %}
+        <button class="dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></button>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+
+{# ===================== AGROTRIPS RÉALISÉS ====================== #}
+<section class="section" id="passes">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Nos expériences</span>
+            <h2>AgroTrips déjà réalisés</h2>
+            <p>Revivez les moments forts de nos camps et ateliers agricoles passés.</p>
+        </div>
+
+        <div class="cards-grid">
+            {% for trip in agrotrips_passes %}
+            <a href="{{ trip.get_absolute_url }}" class="card">
+                <div class="card-img" style="background-image:url('{{ trip.cover }}');">
+                    <span class="card-tag tag-past">Réalisé</span>
+                </div>
+                <div class="card-body">
+                    <h3>{{ trip.titre }}</h3>
+                    <div class="card-meta">
+                        <span>📍 {{ trip.lieu }}</span>
+                        <span>📅 {{ trip.date_debut|date:"d M Y" }}</span>
+                    </div>
+                    <p>{{ trip.description_courte }}</p>
+                    <span class="card-link">Voir le récap →</span>
+                </div>
+            </a>
+            {% empty %}
+            <p class="empty">Aucun AgroTrip réalisé pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# ===================== AGROTRIPS À VENIR ====================== #}
+<section class="section section-alt" id="a-venir">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Réservez votre place</span>
+            <h2>AgroTrips à venir</h2>
+            <p>Inscrivez-vous dès maintenant à nos prochaines aventures agricoles.</p>
+        </div>
+
+        <div class="cards-grid">
+            {% for trip in agrotrips_a_venir %}
+            <div class="card card-upcoming">
+                <a href="{{ trip.get_absolute_url }}" class="card-img-link">
+                    <div class="card-img" style="background-image:url('{{ trip.cover }}');">
+                        <span class="card-tag tag-up">À venir</span>
+                        <span class="card-price">{{ trip.prix|floatformat:0|intcomma }} FCFA</span>
+                    </div>
+                </a>
+                <div class="card-body">
+                    <h3><a href="{{ trip.get_absolute_url }}">{{ trip.titre }}</a></h3>
+                    <div class="card-meta">
+                        <span>📍 {{ trip.lieu }}</span>
+                        <span>📅 {{ trip.date_debut|date:"d M Y" }}</span>
+                    </div>
+                    <p>{{ trip.description_courte }}</p>
+
+                    <div class="countdown" data-date="{{ trip.date_debut|date:'Y-m-d' }}T08:00:00">
+                        <div class="cd-box"><span class="cd-num" data-unit="days">--</span><small>jours</small></div>
+                        <div class="cd-box"><span class="cd-num" data-unit="hours">--</span><small>h</small></div>
+                        <div class="cd-box"><span class="cd-num" data-unit="minutes">--</span><small>min</small></div>
+                        <div class="cd-box"><span class="cd-num" data-unit="seconds">--</span><small>s</small></div>
+                    </div>
+
+                    <a href="{{ trip.get_absolute_url }}" class="btn btn-primary btn-block">
+                        S'inscrire →
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="empty">Aucun AgroTrip à venir pour l'instant. Revenez bientôt !</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# ========================== CTA FINAL ========================= #}
+<section class="cta-band">
+    <div class="container">
+        <h2>Prêt à vivre l'agriculture autrement ?</h2>
+        <p>Rejoignez une communauté de passionnés et découvrez le monde agricole en immersion.</p>
+        <a href="#a-venir" class="btn btn-light">Réserver mon AgroTrip</a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/countdown.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Tous les AgroTrips — AgroTrip{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Catalogue</span>
+            <h2>Tous nos AgroTrips</h2>
+        </div>
+
+        <h3 class="list-subtitle">À venir</h3>
+        <div class="cards-grid">
+            {% for trip in a_venir %}
+            <a href="{{ trip.get_absolute_url }}" class="card">
+                <div class="card-img" style="background-image:url('{{ trip.cover }}');">
+                    <span class="card-tag tag-up">À venir</span>
+                    <span class="card-price">{{ trip.prix|floatformat:0|intcomma }} FCFA</span>
+                </div>
+                <div class="card-body">
+                    <h3>{{ trip.titre }}</h3>
+                    <div class="card-meta">
+                        <span>📍 {{ trip.lieu }}</span>
+                        <span>📅 {{ trip.date_debut|date:"d M Y" }}</span>
+                    </div>
+                    <p>{{ trip.description_courte }}</p>
+                    <span class="card-link">S'inscrire →</span>
+                </div>
+            </a>
+            {% empty %}<p class="empty">Aucun AgroTrip à venir.</p>{% endfor %}
+        </div>
+
+        <h3 class="list-subtitle">Réalisés</h3>
+        <div class="cards-grid">
+            {% for trip in passes %}
+            <a href="{{ trip.get_absolute_url }}" class="card">
+                <div class="card-img" style="background-image:url('{{ trip.cover }}');">
+                    <span class="card-tag tag-past">Réalisé</span>
+                </div>
+                <div class="card-body">
+                    <h3>{{ trip.titre }}</h3>
+                    <div class="card-meta">
+                        <span>📍 {{ trip.lieu }}</span>
+                        <span>📅 {{ trip.date_debut|date:"d M Y" }}</span>
+                    </div>
+                    <p>{{ trip.description_courte }}</p>
+                    <span class="card-link">Voir le récap →</span>
+                </div>
+            </a>
+            {% empty %}<p class="empty">Aucun AgroTrip réalisé.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

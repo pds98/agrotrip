@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ agrotrip.titre }} — AgroTrip{% endblock %}
+
+{% block content %}
+
+{# ======================= EN-TÊTE / HERO ======================= #}
+<section class="detail-hero"
+     style="background-image:linear-gradient(rgba(20,40,15,.55),rgba(20,40,15,.7)),url('{{ agrotrip.cover }}');">
+    <div class="container detail-hero-content">
+        {% if agrotrip.est_a_venir %}
+            <span class="slide-badge">À venir</span>
+        {% else %}
+            <span class="slide-badge badge-grey">Réalisé</span>
+        {% endif %}
+        <h1>{{ agrotrip.titre }}</h1>
+        <div class="detail-meta">
+            <span>📍 {{ agrotrip.lieu }}</span>
+            <span>📅 {{ agrotrip.date_debut|date:"d F Y" }}{% if agrotrip.date_fin %} → {{ agrotrip.date_fin|date:"d F Y" }}{% endif %}</span>
+            <span>💰 {{ agrotrip.prix|floatformat:0|intcomma }} FCFA</span>
+        </div>
+    </div>
+</section>
+
+<div class="container detail-layout">
+
+    {# ----------------------- COLONNE PRINCIPALE ----------------------- #}
+    <div class="detail-main">
+
+        {% if agrotrip.est_a_venir %}
+        <div class="countdown countdown-lg" data-date="{{ agrotrip.date_debut|date:'Y-m-d' }}T08:00:00">
+            <div class="cd-box"><span class="cd-num" data-unit="days">--</span><small>jours</small></div>
+            <div class="cd-box"><span class="cd-num" data-unit="hours">--</span><small>heures</small></div>
+            <div class="cd-box"><span class="cd-num" data-unit="minutes">--</span><small>minutes</small></div>
+            <div class="cd-box"><span class="cd-num" data-unit="seconds">--</span><small>secondes</small></div>
+        </div>
+        {% endif %}
+
+        <h2>À propos de cet AgroTrip</h2>
+        <div class="rich-text">{{ agrotrip.description_complete|linebreaks }}</div>
+
+        {% if agrotrip.liste_activites %}
+        <h2>Activités{% if not agrotrip.est_a_venir %} réalisées{% endif %}</h2>
+        <ul class="activites">
+            {% for act in agrotrip.liste_activites %}
+            <li>{{ act }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if agrotrip.photos.all %}
+        <h2>Galerie photos</h2>
+        <div class="galerie">
+            {% for photo in agrotrip.photos.all %}
+            <div class="galerie-item" style="background-image:url('{{ photo.cover }}');" title="{{ photo.legende }}"></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if agrotrip.temoignages.all %}
+        <h2>Témoignages</h2>
+        <div class="temoignages">
+            {% for t in agrotrip.temoignages.all %}
+            <blockquote class="temoignage">
+                <div class="stars">{% for s in t.etoiles %}★{% endfor %}</div>
+                <p>« {{ t.texte }} »</p>
+                <cite>— {{ t.auteur }}</cite>
+            </blockquote>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    {# --------------------------- SIDEBAR --------------------------- #}
+    <aside class="detail-side">
+        <div class="info-card">
+            <h3>Informations</h3>
+            <ul class="info-list">
+                <li><span>Lieu</span><strong>{{ agrotrip.lieu }}</strong></li>
+                <li><span>Date</span><strong>{{ agrotrip.date_debut|date:"d/m/Y" }}</strong></li>
+                {% if agrotrip.date_fin %}<li><span>Fin</span><strong>{{ agrotrip.date_fin|date:"d/m/Y" }}</strong></li>{% endif %}
+                <li><span>Prix</span><strong>{{ agrotrip.prix|floatformat:0|intcomma }} FCFA</strong></li>
+                {% if agrotrip.est_a_venir %}
+                <li><span>Places restantes</span><strong>{{ agrotrip.places_restantes }}</strong></li>
+                {% else %}
+                <li><span>Participants</span><strong>{{ agrotrip.nombre_participants }}</strong></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        {% if agrotrip.est_a_venir %}
+            {% if agrotrip.complet %}
+                <div class="info-card complet-card">
+                    <h3>Complet 😔</h3>
+                    <p>Toutes les places pour cet AgroTrip sont réservées.
+                    Contactez-nous pour être ajouté(e) à la liste d'attente.</p>
+                </div>
+            {% else %}
+                <div class="info-card form-card" id="inscription">
+                    <h3>S'inscrire à cet AgroTrip</h3>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-error">{{ form.non_field_errors }}</div>
+                        {% endif %}
+                        {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}<small class="field-error">{{ field.errors|striptags }}</small>{% endif %}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary btn-block">Confirmer mon inscription</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <a href="{% url 'trips:home' %}" class="back-link">← Retour à l'accueil</a>
+    </aside>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/countdown.js' %}"></script>
+{% endblock %}
