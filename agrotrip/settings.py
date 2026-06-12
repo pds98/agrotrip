@@ -77,7 +77,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Déconnexion automatique du tableau de bord après inactivité
+    "trips.middleware.InactiviteMiddleware",
 ]
+
+# Durée d'inactivité (en minutes) avant déconnexion automatique du dashboard.
+GESTION_TIMEOUT_MINUTES = 30
 
 ROOT_URLCONF = "agrotrip.urls"
 

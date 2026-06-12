@@ -45,5 +45,24 @@
         </div>
     </main>
 </div>
+
+{# Déconnexion automatique après inactivité (sécurité) #}
+<script>
+(function () {
+    var minutes = {{ gestion_timeout_minutes|default:30 }};
+    var delai = minutes * 60 * 1000;
+    var minuteur;
+    function reinitialiser() {
+        clearTimeout(minuteur);
+        minuteur = setTimeout(function () {
+            window.location = "{% url 'trips:gestion_deconnexion' %}";
+        }, delai);
+    }
+    ["click", "keydown", "mousemove", "scroll", "touchstart"].forEach(function (e) {
+        document.addEventListener(e, reinitialiser, true);
+    });
+    reinitialiser();
+})();
+</script>
 </body>
 </html>
