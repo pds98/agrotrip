@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
 from .forms import RegistrationForm
-from .models import AgroTrip, Registration
+from .models import AgroTrip, Registration, APropos, Initiateur, Partenaire
 
 
 def home(request):
@@ -28,6 +28,16 @@ def home(request):
         "agrotrips_a_venir": a_venir,
     }
     return render(request, "trips/home.html", context)
+
+
+def pourquoi(request):
+    """Page « Pourquoi AgroTrip » : explication, mission, initiateurs, partenaires."""
+    context = {
+        "apropos": APropos.charger(),
+        "initiateurs": Initiateur.objects.all(),
+        "partenaires": Partenaire.objects.all(),
+    }
+    return render(request, "trips/pourquoi.html", context)
 
 
 def agrotrip_detail(request, slug):

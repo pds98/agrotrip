@@ -7,7 +7,10 @@ notifications de nouvelles inscriptions, actions groupées, etc.
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import AgroTrip, TripPhoto, Testimonial, Registration
+from .models import (
+    AgroTrip, TripPhoto, Testimonial, Registration,
+    APropos, Initiateur, Partenaire,
+)
 
 
 class TripPhotoInline(admin.TabularInline):
@@ -170,3 +173,61 @@ class TestimonialAdmin(admin.ModelAdmin):
 class TripPhotoAdmin(admin.ModelAdmin):
     list_display = ("agrotrip", "legende")
     list_filter = ("agrotrip",)
+
+
+# ---------------------- PAGE « POURQUOI AGROTRIP » ----------------------
+@admin.register(APropos)
+class AProposAdmin(admin.ModelAdmin):
+    """Contenu de la page Pourquoi AgroTrip (une seule fiche)."""
+
+    def has_add_permission(self, request):
+        # Empêche de créer plusieurs fiches : il n'y en a qu'une.
+        return not APropos.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(Initiateur)
+class InitiateurAdmin(admin.ModelAdmin):
+    list_display = ("apercu", "nom", "role", "ordre")
+    list_display_links = ("apercu", "nom")
+    list_editable = ("ordre",)
+    search_fields = ("nom", "role")
+    fieldsets = (
+        ("Identité", {"fields": ("nom", "role", "ordre")}),
+        ("Photo", {"fields": ("photo", "photo_url"),
+                   "description": "Uploadez une photo OU collez un lien web."}),
+        ("Présentation", {"fields": ("presentation",)}),
+    )
+
+    @admin.display(description="Photo")
+    def apercu(self, obj):
+        if obj.cover:
+            return format_html(
+                '<img src="{}" style="width:52px;height:52px;object-fit:cover;'
+                'border-radius:50%;" />', obj.cover,
+            )
+        return "—"
+
+
+@admin.register(Partenaire)
+class PartenaireAdmin(admin.ModelAdmin):
+    list_display = ("apercu", "nom", "site_web", "ordre")
+    list_display_links = ("apercu", "nom")
+    list_editable = ("ordre",)
+    search_fields = ("nom",)
+    fieldsets = (
+        ("Partenaire", {"fields": ("nom", "site_web", "ordre")}),
+        ("Logo", {"fields": ("logo", "logo_url"),
+                  "description": "Uploadez un logo OU collez un lien web."}),
+    )
+
+    @admin.display(description="Logo")
+    def apercu(self, obj):
+        if obj.cover:
+            return format_html(
+                '<img src="{}" style="width:70px;height:44px;object-fit:contain;" />',
+                obj.cover,
+            )
+        return "—"

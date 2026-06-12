@@ -12,7 +12,10 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from trips.models import AgroTrip, TripPhoto, Testimonial
+from trips.models import (
+    AgroTrip, TripPhoto, Testimonial,
+    APropos, Initiateur, Partenaire,
+)
 
 
 # Photos agricoles libres de droits (Unsplash)
@@ -50,9 +53,53 @@ class Command(BaseCommand):
                 "✅ Compte admin créé : yacine / AgroTrip2026"
             ))
 
+        # -------- Page « Pourquoi AgroTrip » (mission, initiateurs, partenaires) --------
+        apropos = APropos.charger()
+        if not apropos.pourquoi_texte:
+            apropos.pourquoi_titre = "Pourquoi AgroTrip ?"
+            apropos.pourquoi_texte = (
+                "AgroTrip est né d'une conviction simple : l'agriculture se comprend "
+                "mieux en la vivant. Trop de personnes sont aujourd'hui déconnectées de "
+                "la terre et des métiers qui les nourrissent.\n\n"
+                "Nous créons des expériences immersives — les « AgroTrips » — qui "
+                "reconnectent les participants à la nature, aux fermes et aux savoir-faire "
+                "agricoles, dans une ambiance conviviale et formatrice."
+            )
+            apropos.mission_texte = (
+                "Rendre l'agriculture accessible, attractive et inspirante.\n\n"
+                "Nous transmettons des techniques concrètes, nous valorisons les acteurs "
+                "du monde agricole et nous faisons naître des vocations grâce à des camps "
+                "et ateliers pratiques ouverts à tous."
+            )
+            apropos.save()
+
+        if not Initiateur.objects.exists():
+            Initiateur.objects.create(
+                nom="Yacine", role="Fondatrice & CEO", ordre=1,
+                photo_url="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80",
+                presentation="Passionnée d'agriculture et d'entrepreneuriat, Yacine a "
+                             "fondé AgroTrip pour rapprocher les jeunes du monde agricole.",
+            )
+            Initiateur.objects.create(
+                nom="Initiateur 2", role="Co-fondateur", ordre=2,
+                photo_url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+                presentation="Expert agronome, il conçoit les programmes pédagogiques "
+                             "des AgroTrips et accompagne les participants sur le terrain.",
+            )
+
+        if not Partenaire.objects.exists():
+            Partenaire.objects.create(
+                nom="Ferme partenaire", ordre=1,
+                logo_url="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&q=80",
+            )
+            Partenaire.objects.create(
+                nom="Coopérative agricole", ordre=2,
+                logo_url="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=300&q=80",
+            )
+
         if AgroTrip.objects.exists():
             self.stdout.write(self.style.WARNING(
-                "Des AgroTrips existent déjà — création des données ignorée."
+                "Des AgroTrips existent déjà — création des AgroTrips ignorée."
             ))
             return
 

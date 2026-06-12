@@ -254,3 +254,107 @@ class Registration(models.Model):
     @property
     def nom_complet(self):
         return f"{self.prenom} {self.nom}"
+
+
+# ==========================================================================
+#  CONTENU DE LA PAGE « POURQUOI AGROTRIP »
+# ==========================================================================
+class APropos(models.Model):
+    """
+    Contenu de la page « Pourquoi AgroTrip » (texte d'explication + mission).
+    Il ne doit exister qu'une seule fiche (singleton).
+    """
+    pourquoi_titre = models.CharField(
+        "Titre de la section Pourquoi", max_length=200,
+        default="Pourquoi AgroTrip ?",
+    )
+    pourquoi_texte = models.TextField(
+        "Texte d'explication (Pourquoi AgroTrip)",
+        help_text="Expliquez la raison d'être d'AgroTrip.",
+        blank=True,
+    )
+    mission_texte = models.TextField(
+        "Notre mission", blank=True,
+        help_text="Décrivez la mission d'AgroTrip.",
+    )
+
+    class Meta:
+        verbose_name = "Page « Pourquoi AgroTrip »"
+        verbose_name_plural = "Page « Pourquoi AgroTrip »"
+
+    def __str__(self):
+        return "Contenu — Pourquoi AgroTrip"
+
+    def save(self, *args, **kwargs):
+        # Force un identifiant unique : une seule fiche possible.
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def charger(cls):
+        """Retourne l'unique fiche (la crée si elle n'existe pas encore)."""
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+class Initiateur(models.Model):
+    """Un membre fondateur / initiateur d'AgroTrip (photo + présentation)."""
+    nom = models.CharField("Nom complet", max_length=120)
+    role = models.CharField(
+        "Rôle / Fonction", max_length=120, blank=True,
+        help_text="Ex : Fondatrice & CEO, Co-fondateur…",
+    )
+    photo = models.ImageField(
+        "Photo (upload)", upload_to="initiateurs/", blank=True, null=True
+    )
+    photo_url = models.URLField(
+        "Photo (lien web)", blank=True,
+        help_text="Utilisé si aucune photo n'est uploadée.",
+    )
+    presentation = models.TextField("Présentation", blank=True)
+    ordre = models.PositiveSmallIntegerField(
+        "Ordre d'affichage", default=0,
+        help_text="Les plus petits nombres apparaissent en premier.",
+    )
+
+    class Meta:
+        verbose_name = "Initiateur"
+        verbose_name_plural = "Initiateurs"
+        ordering = ["ordre", "nom"]
+
+    def __str__(self):
+        return self.nom
+
+    @property
+    def cover(self):
+        if self.photo:
+            return self.photo.url
+        return self.photo_url
+
+
+class Partenaire(models.Model):
+    """Un partenaire d'AgroTrip (logo + lien)."""
+    nom = models.CharField("Nom du partenaire", max_length=150)
+    logo = models.ImageField(
+        "Logo (upload)", upload_to="partenaires/", blank=True, null=True
+    )
+    logo_url = models.URLField(
+        "Logo (lien web)", blank=True,
+        help_text="Utilisé si aucun logo n'est uploadé.",
+    )
+    site_web = models.URLField("Site web", blank=True)
+    ordre = models.PositiveSmallIntegerField("Ordre d'affichage", default=0)
+
+    class Meta:
+        verbose_name = "Partenaire"
+        verbose_name_plural = "Partenaires"
+        ordering = ["ordre", "nom"]
+
+    def __str__(self):
+        return self.nom
+
+    @property
+    def cover(self):
+        if self.logo:
+            return self.logo.url
+        return self.logo_url

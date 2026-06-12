@@ -153,6 +153,18 @@ h1,h2,h3,h4{font-family:'Quicksand','Poppins',sans-serif;line-height:1.2;}
 .countdown-lg .cd-num{font-size:2.2rem;}
 .countdown-lg .cd-box small{font-size:.75rem;}
 
+/* ----------------------- POURQUOI AGROTRIP ----------------------- */
+.pourquoi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.6rem;}
+.pourquoi-card{
+  background:#fff;border-radius:var(--radius);box-shadow:var(--ombre);
+  padding:2rem 1.5rem;text-align:center;transition:var(--transition);
+  border-bottom:4px solid var(--vert-clair);
+}
+.pourquoi-card:hover{transform:translateY(-7px);box-shadow:var(--ombre-forte);}
+.pourquoi-icon{font-size:2.6rem;margin-bottom:.8rem;}
+.pourquoi-card h3{color:var(--vert-fonce);font-size:1.2rem;margin-bottom:.6rem;}
+.pourquoi-card p{color:#4a5a45;font-size:.92rem;}
+
 /* ----------------------- CTA BAND ----------------------- */
 .cta-band{
   background:linear-gradient(120deg,var(--vert-fonce),var(--vert));
@@ -235,6 +247,39 @@ h1,h2,h3,h4{font-family:'Quicksand','Poppins',sans-serif;line-height:1.2;}
 .site-footer a,.site-footer p{display:block;color:#dce8d4;font-size:.9rem;margin-bottom:.5rem;opacity:.9;transition:var(--transition);}
 .site-footer a:hover{color:var(--orange-clair);opacity:1;}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.12);padding:1.2rem 0;text-align:center;font-size:.85rem;opacity:.8;}
+
+/* ----------------------- PAGE POURQUOI AGROTRIP ----------------------- */
+.pourquoi-hero{
+  background:linear-gradient(120deg,var(--vert-fonce),var(--vert));
+  color:#fff;padding:3.5rem 0;text-align:center;
+}
+.pourquoi-hero h1{font-size:clamp(1.8rem,4.5vw,3rem);margin-top:.6rem;}
+.pourquoi-page{padding:3rem 0;}
+.pourquoi-bloc{margin-bottom:3rem;}
+.pourquoi-bloc h2{color:var(--vert-fonce);font-size:1.7rem;margin-bottom:1rem;
+  padding-bottom:.5rem;border-bottom:3px solid var(--vert-pale);display:inline-block;}
+.mission-bloc{background:var(--creme);border-radius:var(--radius);padding:2rem;border-left:5px solid var(--orange);}
+.mission-bloc h2{border-bottom:none;}
+
+.initiateurs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.8rem;}
+.initiateur-card{background:#fff;border-radius:var(--radius);box-shadow:var(--ombre);
+  padding:1.8rem 1.4rem;text-align:center;transition:var(--transition);}
+.initiateur-card:hover{transform:translateY(-6px);box-shadow:var(--ombre-forte);}
+.initiateur-photo{width:130px;height:130px;border-radius:50%;margin:0 auto 1rem;
+  background-size:cover;background-position:center;background-color:var(--vert-pale);
+  border:4px solid var(--vert-pale);}
+.initiateur-card h3{color:var(--vert-fonce);font-size:1.2rem;margin-bottom:.2rem;}
+.initiateur-role{display:inline-block;color:var(--orange);font-weight:600;font-size:.85rem;margin-bottom:.7rem;}
+.initiateur-card p{color:#4a5a45;font-size:.9rem;}
+
+.partenaires-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1.4rem;}
+.partenaire-item{background:#fff;border-radius:14px;box-shadow:var(--ombre);
+  padding:1.2rem;display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  transition:var(--transition);text-align:center;}
+.partenaire-item:hover{transform:translateY(-4px);box-shadow:var(--ombre-forte);}
+.partenaire-item img{height:60px;width:auto;max-width:100%;object-fit:contain;}
+.partenaire-item span{font-size:.85rem;color:var(--gris);font-weight:500;}
+.pourquoi-cta{text-align:center;margin-top:1rem;}
 
 /* ----------------------- BOUTON WHATSAPP FLOTTANT ----------------------- */
 .whatsapp-float{

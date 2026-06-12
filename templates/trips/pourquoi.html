@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pourquoi AgroTrip — AgroTrip{% endblock %}
+
+{% block content %}
+
+{# ======================= EN-TÊTE ======================= #}
+<section class="pourquoi-hero">
+    <div class="container">
+        <span class="slide-badge">Notre histoire</span>
+        <h1>{{ apropos.pourquoi_titre|default:"Pourquoi AgroTrip ?" }}</h1>
+    </div>
+</section>
+
+<div class="container pourquoi-page">
+
+    {# ----------------- POURQUOI ----------------- #}
+    <section class="pourquoi-bloc">
+        <h2>Pourquoi AgroTrip ?</h2>
+        {% if apropos.pourquoi_texte %}
+            <div class="rich-text">{{ apropos.pourquoi_texte|linebreaks }}</div>
+        {% else %}
+            <p class="rich-text">AgroTrip est né d'une conviction : l'agriculture se
+            comprend mieux en la vivant. Nous créons des expériences immersives qui
+            reconnectent les participants à la terre, aux fermes et aux savoir-faire
+            agricoles, dans une ambiance conviviale et formatrice.</p>
+        {% endif %}
+    </section>
+
+    {# ----------------- MISSION ----------------- #}
+    <section class="pourquoi-bloc mission-bloc">
+        <h2>Notre mission</h2>
+        {% if apropos.mission_texte %}
+            <div class="rich-text">{{ apropos.mission_texte|linebreaks }}</div>
+        {% else %}
+            <p class="rich-text">Rendre l'agriculture accessible, attractive et
+            inspirante. Transmettre des techniques concrètes, valoriser les acteurs
+            du monde agricole et faire naître des vocations grâce à des camps et
+            ateliers pratiques ouverts à tous.</p>
+        {% endif %}
+    </section>
+
+    {# ----------------- INITIATEURS ----------------- #}
+    <section class="pourquoi-bloc">
+        <h2>Les initiateurs</h2>
+        {% if initiateurs %}
+        <div class="initiateurs-grid">
+            {% for p in initiateurs %}
+            <div class="initiateur-card">
+                <div class="initiateur-photo"
+                     style="background-image:url('{{ p.cover }}');"></div>
+                <h3>{{ p.nom }}</h3>
+                {% if p.role %}<span class="initiateur-role">{{ p.role }}</span>{% endif %}
+                {% if p.presentation %}<p>{{ p.presentation }}</p>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">Les présentations de l'équipe seront bientôt disponibles.</p>
+        {% endif %}
+    </section>
+
+    {# ----------------- PARTENAIRES ----------------- #}
+    <section class="pourquoi-bloc">
+        <h2>Nos partenaires</h2>
+        {% if partenaires %}
+        <div class="partenaires-grid">
+            {% for part in partenaires %}
+            {% if part.site_web %}<a href="{{ part.site_web }}" target="_blank" rel="noopener" class="partenaire-item">{% else %}<div class="partenaire-item">{% endif %}
+                <img src="{{ part.cover }}" alt="{{ part.nom }}">
+                <span>{{ part.nom }}</span>
+            {% if part.site_web %}</a>{% else %}</div>{% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">Nos partenaires seront annoncés prochainement.</p>
+        {% endif %}
+    </section>
+
+    <div class="pourquoi-cta">
+        <a href="{% url 'trips:home' %}#a-venir" class="btn btn-primary">Découvrir les AgroTrips à venir</a>
+    </div>
+</div>
+
+{% endblock %}
