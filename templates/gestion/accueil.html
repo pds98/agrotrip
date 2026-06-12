@@ -1,0 +1,67 @@
+{% extends "gestion/base_gestion.html" %}
+{% load humanize %}
+
+{% block title %}Accueil — Gestion AgroTrip{% endblock %}
+{% block entete %}Bonjour {{ request.user.username }} 👋{% endblock %}
+
+{% block content %}
+<div class="g-stats">
+    <a href="{% url 'trips:gestion_agrotrips' %}" class="g-stat">
+        <span class="g-stat-num">{{ nb_a_venir }}</span>
+        <span class="g-stat-lbl">AgroTrips à venir</span>
+    </a>
+    <a href="{% url 'trips:gestion_agrotrips' %}" class="g-stat">
+        <span class="g-stat-num">{{ nb_passes }}</span>
+        <span class="g-stat-lbl">AgroTrips réalisés</span>
+    </a>
+    <a href="{% url 'trips:gestion_inscriptions' %}" class="g-stat">
+        <span class="g-stat-num">{{ nb_inscriptions }}</span>
+        <span class="g-stat-lbl">Inscriptions totales</span>
+    </a>
+    <a href="{% url 'trips:gestion_inscriptions' %}" class="g-stat {% if nb_nouvelles %}g-stat-alert{% endif %}">
+        <span class="g-stat-num">{{ nb_nouvelles }}</span>
+        <span class="g-stat-lbl">Nouvelles inscriptions</span>
+    </a>
+</div>
+
+<div class="g-grid-2">
+    <div class="g-panel">
+        <div class="g-panel-head">
+            <h3>Dernières inscriptions</h3>
+            <a href="{% url 'trips:gestion_inscriptions' %}" class="g-link">Tout voir →</a>
+        </div>
+        {% if dernieres %}
+        <table class="g-table">
+            <tbody>
+            {% for i in dernieres %}
+            <tr onclick="location.href='{% url 'trips:gestion_inscription_detail' i.pk %}'">
+                <td>{% if not i.lu %}<span class="g-dot"></span>{% endif %}{{ i.nom_complet }}</td>
+                <td class="g-muted">{{ i.agrotrip.titre|truncatechars:24 }}</td>
+                <td class="g-muted">{{ i.cree_le|date:"d/m/Y" }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}<p class="g-muted">Aucune inscription pour le moment.</p>{% endif %}
+    </div>
+
+    <div class="g-panel">
+        <div class="g-panel-head">
+            <h3>Prochains AgroTrips</h3>
+            <a href="{% url 'trips:gestion_agrotrip_ajouter' %}" class="g-link">+ Ajouter</a>
+        </div>
+        {% if prochains %}
+        <table class="g-table">
+            <tbody>
+            {% for t in prochains %}
+            <tr onclick="location.href='{% url 'trips:gestion_agrotrip_modifier' t.pk %}'">
+                <td>{{ t.titre|truncatechars:28 }}</td>
+                <td class="g-muted">{{ t.date_debut|date:"d/m/Y" }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}<p class="g-muted">Aucun AgroTrip à venir.</p>{% endif %}
+    </div>
+</div>
+{% endblock %}

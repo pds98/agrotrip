@@ -1,0 +1,69 @@
+{% extends "gestion/base_gestion.html" %}
+
+{% block title %}Pourquoi AgroTrip — Gestion{% endblock %}
+{% block entete %}Page « Pourquoi AgroTrip »{% endblock %}
+
+{% block content %}
+
+{# ---- Texte explication + mission ---- #}
+<div class="g-panel">
+    <h3>Texte de la page</h3>
+    <form method="post" class="g-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="g-field full">
+            <label>{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <div class="g-form-actions">
+            <button type="submit" class="g-btn g-btn-primary">💾 Enregistrer le texte</button>
+        </div>
+    </form>
+</div>
+
+{# ---- Initiateurs ---- #}
+<div class="g-panel">
+    <div class="g-panel-head">
+        <h3>Les initiateurs</h3>
+        <a href="{% url 'trips:gestion_initiateur_ajouter' %}" class="g-btn g-btn-sm g-btn-primary">+ Ajouter</a>
+    </div>
+    {% if initiateurs %}
+    <div class="g-mini-grid">
+        {% for p in initiateurs %}
+        <div class="g-mini-card">
+            <div class="g-mini-photo" style="background-image:url('{{ p.cover }}');"></div>
+            <strong>{{ p.nom }}</strong>
+            <small class="g-muted">{{ p.role }}</small>
+            <div class="g-mini-actions">
+                <a href="{% url 'trips:gestion_initiateur_modifier' p.pk %}" class="g-btn g-btn-sm">✏️</a>
+                <a href="{% url 'trips:gestion_initiateur_supprimer' p.pk %}" class="g-btn g-btn-sm g-btn-danger">🗑</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}<p class="g-muted">Aucun initiateur. Cliquez sur « Ajouter ».</p>{% endif %}
+</div>
+
+{# ---- Partenaires ---- #}
+<div class="g-panel">
+    <div class="g-panel-head">
+        <h3>Les partenaires</h3>
+        <a href="{% url 'trips:gestion_partenaire_ajouter' %}" class="g-btn g-btn-sm g-btn-primary">+ Ajouter</a>
+    </div>
+    {% if partenaires %}
+    <div class="g-mini-grid">
+        {% for p in partenaires %}
+        <div class="g-mini-card">
+            <div class="g-mini-photo logo" style="background-image:url('{{ p.cover }}');"></div>
+            <strong>{{ p.nom }}</strong>
+            <div class="g-mini-actions">
+                <a href="{% url 'trips:gestion_partenaire_modifier' p.pk %}" class="g-btn g-btn-sm">✏️</a>
+                <a href="{% url 'trips:gestion_partenaire_supprimer' p.pk %}" class="g-btn g-btn-sm g-btn-danger">🗑</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}<p class="g-muted">Aucun partenaire. Cliquez sur « Ajouter ».</p>{% endif %}
+</div>
+{% endblock %}

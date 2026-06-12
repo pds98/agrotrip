@@ -1,0 +1,16 @@
+{% extends "gestion/base_gestion.html" %}
+
+{% block title %}Confirmer la suppression{% endblock %}
+{% block entete %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="g-panel g-confirm">
+    <p>Voulez-vous vraiment supprimer {{ type }} <strong>« {{ objet }} »</strong> ?</p>
+    <p class="g-muted">Cette action est définitive.</p>
+    <form method="post" class="g-form-actions">
+        {% csrf_token %}
+        <a href="{% url retour %}" class="g-btn g-btn-ghost">Annuler</a>
+        <button type="submit" class="g-btn g-btn-danger">🗑 Oui, supprimer</button>
+    </form>
+</div>
+{% endblock %}

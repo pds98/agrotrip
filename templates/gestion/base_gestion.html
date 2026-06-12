@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion — AgroTrip{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/gestion.css' %}">
+</head>
+<body>
+<div class="g-layout">
+    {# -------------------- BARRE LATÉRALE -------------------- #}
+    <aside class="g-sidebar" id="g-sidebar">
+        <div class="g-brand">🌱 Agro<span>Trip</span><small>Gestion</small></div>
+        <nav class="g-nav">
+            <a href="{% url 'trips:gestion_accueil' %}" class="{% if rubrique == 'accueil' %}actif{% endif %}">🏠 Accueil</a>
+            <a href="{% url 'trips:gestion_agrotrips' %}" class="{% if rubrique == 'agrotrips' %}actif{% endif %}">🌍 AgroTrips</a>
+            <a href="{% url 'trips:gestion_inscriptions' %}" class="{% if rubrique == 'inscriptions' %}actif{% endif %}">📝 Inscriptions
+                {% if nb_nouvelles_global %}<span class="g-badge">{{ nb_nouvelles_global }}</span>{% endif %}</a>
+            <a href="{% url 'trips:gestion_pourquoi' %}" class="{% if rubrique == 'pourquoi' %}actif{% endif %}">⭐ Pourquoi AgroTrip</a>
+            <a href="{% url 'trips:home' %}" target="_blank">👁 Voir le site</a>
+        </nav>
+        <div class="g-sidebar-foot">
+            <span>👤 {{ request.user.username }}</span>
+            <a href="{% url 'trips:gestion_deconnexion' %}">Se déconnecter →</a>
+        </div>
+    </aside>
+
+    {# -------------------- CONTENU -------------------- #}
+    <main class="g-main">
+        <header class="g-topbar">
+            <button class="g-burger" onclick="document.getElementById('g-sidebar').classList.toggle('ouvert')">☰</button>
+            <h1>{% block entete %}{% endblock %}</h1>
+        </header>
+
+        <div class="g-content">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="g-alert g-alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends "gestion/base_gestion.html" %}
+
+{% block title %}Inscription — {{ insc.nom_complet }}{% endblock %}
+{% block entete %}Inscription de {{ insc.nom_complet }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'trips:gestion_inscriptions' %}" class="g-link">← Retour aux inscriptions</a>
+
+<div class="g-panel g-detail">
+    <div class="g-detail-row"><span>Statut</span><strong><span class="g-statut g-statut-{{ insc.statut }}">{{ insc.get_statut_display }}</span></strong></div>
+    <div class="g-detail-row"><span>Nom complet</span><strong>{{ insc.nom_complet }}</strong></div>
+    <div class="g-detail-row"><span>Téléphone</span><strong><a href="tel:{{ insc.telephone }}">{{ insc.telephone }}</a></strong></div>
+    <div class="g-detail-row"><span>Email</span><strong><a href="mailto:{{ insc.email }}">{{ insc.email }}</a></strong></div>
+    <div class="g-detail-row"><span>AgroTrip choisi</span><strong>{{ insc.agrotrip.titre }}</strong></div>
+    <div class="g-detail-row"><span>Nombre de places</span><strong>{{ insc.nombre_places }}</strong></div>
+    <div class="g-detail-row"><span>Date d'inscription</span><strong>{{ insc.cree_le|date:"d/m/Y à H:i" }}</strong></div>
+    {% if insc.message %}<div class="g-detail-row"><span>Message</span><strong>{{ insc.message }}</strong></div>{% endif %}
+</div>
+
+<form method="post" class="g-form-actions">
+    {% csrf_token %}
+    <a href="https://wa.me/{{ insc.telephone|cut:' '|cut:'+' }}" target="_blank" class="g-btn g-btn-ghost">💬 WhatsApp</a>
+    {% if insc.statut != 'confirmee' %}<button name="action" value="confirmer" class="g-btn g-btn-primary">✅ Confirmer</button>{% endif %}
+    {% if insc.statut != 'annulee' %}<button name="action" value="annuler" class="g-btn g-btn-ghost">🚫 Annuler</button>{% endif %}
+    <button name="action" value="supprimer" class="g-btn g-btn-danger" onclick="return confirm('Supprimer cette inscription ?')">🗑 Supprimer</button>
+</form>
+{% endblock %}

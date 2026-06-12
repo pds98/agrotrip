@@ -1,0 +1,31 @@
+{% extends "gestion/base_gestion.html" %}
+
+{% block title %}Inscriptions — Gestion{% endblock %}
+{% block entete %}Les inscriptions{% endblock %}
+
+{% block content %}
+{% if inscriptions %}
+<div class="g-panel">
+<table class="g-table g-table-full">
+    <thead>
+        <tr><th></th><th>Client</th><th>AgroTrip</th><th>Téléphone</th><th>Places</th><th>Statut</th><th>Date</th></tr>
+    </thead>
+    <tbody>
+    {% for i in inscriptions %}
+    <tr onclick="location.href='{% url 'trips:gestion_inscription_detail' i.pk %}'">
+        <td>{% if not i.lu %}<span class="g-dot"></span>{% endif %}</td>
+        <td><strong>{{ i.nom_complet }}</strong></td>
+        <td class="g-muted">{{ i.agrotrip.titre|truncatechars:26 }}</td>
+        <td class="g-muted">{{ i.telephone }}</td>
+        <td>{{ i.nombre_places }}</td>
+        <td><span class="g-statut g-statut-{{ i.statut }}">{{ i.get_statut_display }}</span></td>
+        <td class="g-muted">{{ i.cree_le|date:"d/m/Y" }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<div class="g-empty"><p>Aucune inscription pour le moment.</p></div>
+{% endif %}
+{% endblock %}

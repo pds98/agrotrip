@@ -1,0 +1,140 @@
+/* =======================================================
+   Tableau de bord AgroTrip — interface de gestion simple
+   ======================================================= */
+:root{
+  --v:#2e7d32; --vf:#1b5e20; --or:#f57c20; --cr:#f6f8f2;
+  --gris:#6b7a64; --txt:#22311c; --bord:#e3e8dd;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',system-ui,sans-serif;color:var(--txt);background:var(--cr);}
+a{text-decoration:none;color:inherit;}
+input,select,textarea{font-family:inherit;}
+
+.form-control{
+  width:100%;padding:.6rem .8rem;border:1.5px solid #d3dac9;border-radius:9px;
+  font-size:.95rem;background:#fff;transition:.2s;
+}
+.form-control:focus{outline:none;border-color:var(--v);box-shadow:0 0 0 3px rgba(46,125,50,.15);}
+
+/* ---------- BOUTONS ---------- */
+.g-btn{display:inline-block;border:none;cursor:pointer;font-weight:600;font-size:.9rem;
+  padding:.6rem 1.1rem;border-radius:8px;background:#eef2e8;color:var(--txt);transition:.2s;}
+.g-btn:hover{filter:brightness(.96);}
+.g-btn-sm{padding:.4rem .7rem;font-size:.82rem;}
+.g-btn-primary{background:var(--or);color:#fff;}
+.g-btn-primary:hover{background:#ff9844;}
+.g-btn-ghost{background:#fff;border:1.5px solid var(--bord);}
+.g-btn-danger{background:#fdecea;color:#c62828;}
+.g-btn-danger:hover{background:#f8d7d3;}
+.g-btn-block{display:block;width:100%;text-align:center;}
+
+/* ---------- LAYOUT ---------- */
+.g-layout{display:flex;min-height:100vh;}
+.g-sidebar{width:240px;background:var(--vf);color:#dce8d4;display:flex;flex-direction:column;
+  position:fixed;top:0;bottom:0;left:0;z-index:50;}
+.g-brand{font-family:'Quicksand';font-weight:700;font-size:1.5rem;padding:1.3rem 1.2rem;color:#fff;}
+.g-brand span{color:var(--or);}
+.g-brand small{display:block;font-size:.7rem;color:#9ccc9c;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.g-brand.center{text-align:center;}
+.g-nav{display:flex;flex-direction:column;padding:.5rem 0;flex-grow:1;}
+.g-nav a{padding:.8rem 1.2rem;font-weight:500;color:#dce8d4;display:flex;align-items:center;gap:.2rem;transition:.2s;}
+.g-nav a:hover{background:rgba(255,255,255,.08);}
+.g-nav a.actif{background:var(--v);color:#fff;border-left:4px solid var(--or);}
+.g-badge{background:var(--or);color:#fff;font-size:.7rem;border-radius:10px;padding:.05rem .45rem;margin-left:auto;}
+.g-sidebar-foot{padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,.12);font-size:.85rem;display:flex;flex-direction:column;gap:.4rem;}
+.g-sidebar-foot a{color:#9ccc9c;font-weight:600;}
+
+.g-main{flex-grow:1;margin-left:240px;display:flex;flex-direction:column;}
+.g-topbar{background:#fff;border-bottom:1px solid var(--bord);padding:1.1rem 1.6rem;display:flex;align-items:center;gap:.8rem;position:sticky;top:0;z-index:10;}
+.g-topbar h1{font-family:'Quicksand';font-size:1.3rem;color:var(--vf);}
+.g-burger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--vf);}
+.g-content{padding:1.6rem;max-width:1100px;}
+
+/* ---------- ALERTES ---------- */
+.g-alert{padding:.8rem 1.1rem;border-radius:9px;margin-bottom:1.2rem;font-weight:500;font-size:.92rem;}
+.g-alert-success{background:#e6f4e6;color:#1b5e20;border-left:4px solid var(--v);}
+.g-alert-error{background:#fdecea;color:#b71c1c;border-left:4px solid #e53935;}
+
+/* ---------- STATS ---------- */
+.g-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.6rem;}
+.g-stat{background:#fff;border-radius:14px;padding:1.3rem;box-shadow:0 4px 16px rgba(20,40,15,.06);
+  display:flex;flex-direction:column;gap:.2rem;transition:.2s;border-bottom:3px solid var(--v);}
+.g-stat:hover{transform:translateY(-4px);}
+.g-stat-num{font-size:2rem;font-weight:700;font-family:'Quicksand';color:var(--vf);}
+.g-stat-lbl{font-size:.85rem;color:var(--gris);}
+.g-stat-alert{border-bottom-color:var(--or);}
+.g-stat-alert .g-stat-num{color:var(--or);}
+
+/* ---------- PANELS / GRID ---------- */
+.g-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.g-panel{background:#fff;border-radius:14px;padding:1.3rem;box-shadow:0 4px 16px rgba(20,40,15,.06);margin-bottom:1.2rem;}
+.g-panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;}
+.g-panel-head h3,.g-panel>h3{font-family:'Quicksand';color:var(--vf);font-size:1.15rem;}
+.g-link{color:var(--or);font-weight:600;font-size:.88rem;}
+.g-muted{color:var(--gris);font-size:.88rem;}
+
+/* ---------- TABLE ---------- */
+.g-table{width:100%;border-collapse:collapse;}
+.g-table td,.g-table th{padding:.65rem .5rem;text-align:left;border-bottom:1px solid #eef2e9;font-size:.9rem;}
+.g-table th{color:var(--gris);font-weight:600;font-size:.78rem;text-transform:uppercase;}
+.g-table tbody tr{cursor:pointer;transition:.15s;}
+.g-table tbody tr:hover{background:var(--cr);}
+.g-dot{display:inline-block;width:8px;height:8px;background:var(--or);border-radius:50%;margin-right:.5rem;}
+
+.g-statut{padding:.2rem .7rem;border-radius:12px;font-size:.75rem;font-weight:600;color:#fff;}
+.g-statut-nouvelle{background:#fb8c00;}
+.g-statut-confirmee{background:var(--v);}
+.g-statut-annulee{background:#9e9e9e;}
+
+/* ---------- CARTES AGROTRIPS ---------- */
+.g-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;gap:1rem;flex-wrap:wrap;}
+.g-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
+.g-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(20,40,15,.06);}
+.g-card-img{height:140px;background-size:cover;background-position:center;position:relative;}
+.g-tag{position:absolute;top:10px;left:10px;padding:.2rem .7rem;border-radius:10px;font-size:.72rem;font-weight:600;color:#fff;}
+.g-tag.up{background:var(--v);}.g-tag.past{background:#78909c;}
+.g-card-body{padding:1rem;}
+.g-card-body h3{font-size:1.05rem;color:var(--vf);margin-bottom:.4rem;}
+.g-card-actions{display:flex;gap:.4rem;margin-top:.8rem;flex-wrap:wrap;}
+
+/* ---------- FORMULAIRES ---------- */
+.g-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.g-field{display:flex;flex-direction:column;gap:.35rem;}
+.g-field.full{grid-column:1 / -1;}
+.g-field label{font-weight:600;font-size:.85rem;color:var(--vf);}
+.g-field.g-check label{flex-direction:row;align-items:center;gap:.5rem;}
+.g-hint{color:var(--gris);font-size:.78rem;}
+.g-err{color:#c62828;font-size:.8rem;}
+.g-form-actions{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1.4rem;flex-wrap:wrap;}
+
+/* ---------- DÉTAIL / CONFIRM ---------- */
+.g-detail-row{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px dashed var(--bord);font-size:.92rem;}
+.g-detail-row span{color:var(--gris);}
+.g-confirm p{margin-bottom:.6rem;}
+
+/* ---------- MINI CARTES (initiateurs/partenaires) ---------- */
+.g-mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;}
+.g-mini-card{background:var(--cr);border-radius:12px;padding:1rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+.g-mini-photo{width:80px;height:80px;border-radius:50%;background-size:cover;background-position:center;background-color:#cfe0bf;}
+.g-mini-photo.logo{border-radius:8px;background-size:contain;background-repeat:no-repeat;background-color:#fff;}
+.g-mini-actions{display:flex;gap:.3rem;margin-top:.4rem;}
+
+.g-empty{text-align:center;padding:3rem 1rem;color:var(--gris);}
+.g-empty p{margin-bottom:1rem;}
+
+/* ---------- LOGIN ---------- */
+.g-login-body{display:flex;align-items:center;justify-content:center;min-height:100vh;
+  background:linear-gradient(135deg,var(--vf),var(--v));padding:1rem;}
+.g-login-card{background:#fff;border-radius:18px;padding:2.4rem 2rem;width:min(400px,100%);box-shadow:0 20px 50px rgba(0,0,0,.25);}
+.g-login-card .g-brand{padding:0;text-align:center;font-size:1.8rem;}
+.g-login-card h2{text-align:center;color:var(--vf);font-family:'Quicksand';margin:.6rem 0 .2rem;}
+.g-login-sub{text-align:center;color:var(--gris);font-size:.9rem;margin-bottom:1.4rem;}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:820px){
+  .g-grid-2,.g-form-grid{grid-template-columns:1fr;}
+  .g-sidebar{transform:translateX(-100%);transition:.3s;}
+  .g-sidebar.ouvert{transform:translateX(0);}
+  .g-main{margin-left:0;}
+  .g-burger{display:block;}
+}

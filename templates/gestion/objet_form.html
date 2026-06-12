@@ -1,0 +1,25 @@
+{% extends "gestion/base_gestion.html" %}
+
+{% block title %}{{ titre_page }} — Gestion{% endblock %}
+{% block entete %}{{ titre_page }}{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="g-form">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="g-alert g-alert-error">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="g-form-grid">
+        {% for field in form %}
+        <div class="g-field full">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<small class="g-hint">{{ field.help_text }}</small>{% endif %}
+            {% if field.errors %}<small class="g-err">{{ field.errors|striptags }}</small>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="g-form-actions">
+        <a href="{% url retour %}" class="g-btn g-btn-ghost">Annuler</a>
+        <button type="submit" class="g-btn g-btn-primary">💾 Enregistrer</button>
+    </div>
+</form>
+{% endblock %}
