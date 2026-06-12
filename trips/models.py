@@ -120,6 +120,37 @@ class AgroTrip(models.Model):
         return [a.strip() for a in self.activites.splitlines() if a.strip()]
 
     @property
+    def programme(self):
+        """
+        Programme par jour, pour les AgroTrips sur plusieurs jours.
+
+        Si Yacine écrit les activités en préfixant chaque ligne par un jour
+        suivi de « : », par exemple :
+
+            Vendredi: Départ, AgroTalks, Visite de ferme
+            Samedi: Atelier pratique, Récolte
+            Dimanche: Bilan, Retour
+
+        alors le site affiche un tableau en colonnes (un jour par colonne).
+        Sinon, retourne None et les activités s'affichent en simple liste.
+        """
+        jours_connus = (
+            "lundi", "mardi", "mercredi", "jeudi",
+            "vendredi", "samedi", "dimanche",
+        )
+        programme = []
+        for ligne in self.activites.splitlines():
+            ligne = ligne.strip()
+            if not ligne or ":" not in ligne:
+                continue
+            titre, reste = ligne.split(":", 1)
+            if titre.strip().lower() not in jours_connus:
+                return None  # format non reconnu -> liste simple
+            activites = [a.strip() for a in reste.split(",") if a.strip()]
+            programme.append({"jour": titre.strip(), "activites": activites})
+        return programme or None
+
+    @property
     def places_restantes(self):
         prises = sum(
             r.nombre_places

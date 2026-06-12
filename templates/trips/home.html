@@ -43,45 +43,13 @@
     {% endif %}
 </section>
 
-{# ===================== AGROTRIPS RÉALISÉS ====================== #}
-<section class="section" id="passes">
+{# ===================== AGROTRIPS À VENIR (EN HAUT) ====================== #}
+<section class="section" id="a-venir">
     <div class="container">
         <div class="section-head">
-            <span class="eyebrow">Nos expériences</span>
-            <h2>AgroTrips déjà réalisés</h2>
-            <p>Revivez les moments forts de nos camps et ateliers agricoles passés.</p>
-        </div>
-
-        <div class="cards-grid">
-            {% for trip in agrotrips_passes %}
-            <a href="{{ trip.get_absolute_url }}" class="card">
-                <div class="card-img" style="background-image:url('{{ trip.cover }}');">
-                    <span class="card-tag tag-past">Réalisé</span>
-                </div>
-                <div class="card-body">
-                    <h3>{{ trip.titre }}</h3>
-                    <div class="card-meta">
-                        <span>📍 {{ trip.lieu }}</span>
-                        <span>📅 {{ trip.date_debut|date:"d M Y" }}</span>
-                    </div>
-                    <p>{{ trip.description_courte }}</p>
-                    <span class="card-link">Voir le récap →</span>
-                </div>
-            </a>
-            {% empty %}
-            <p class="empty">Aucun AgroTrip réalisé pour le moment.</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-{# ===================== AGROTRIPS À VENIR ====================== #}
-<section class="section section-alt" id="a-venir">
-    <div class="container">
-        <div class="section-head">
-            <span class="eyebrow">Réservez votre place</span>
+            <span class="eyebrow">À venir</span>
             <h2>AgroTrips à venir</h2>
-            <p>Inscrivez-vous dès maintenant à nos prochaines aventures agricoles.</p>
+            <p>Réservez votre place pour la prochaine aventure.</p>
         </div>
 
         <div class="cards-grid">
@@ -115,6 +83,38 @@
             </div>
             {% empty %}
             <p class="empty">Aucun AgroTrip à venir pour l'instant. Revenez bientôt !</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# ===================== NOS EXPÉRIENCES (RÉALISÉS) ====================== #}
+<section class="section section-alt" id="passes">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Éditions passées</span>
+            <h2>Nos expériences</h2>
+            <p>Découvrez les moments forts de nos aventures agrotouristiques passées.</p>
+        </div>
+
+        <div class="cards-grid">
+            {% for trip in agrotrips_passes %}
+            <a href="{{ trip.get_absolute_url }}" class="card">
+                <div class="card-img" style="background-image:url('{{ trip.cover }}');">
+                    <span class="card-tag tag-past">Réalisé</span>
+                </div>
+                <div class="card-body">
+                    <h3>{{ trip.titre }}</h3>
+                    <div class="card-meta">
+                        <span>📍 {{ trip.lieu }}</span>
+                        <span>📅 {{ trip.date_debut|date:"d M Y" }}</span>
+                    </div>
+                    <p>{{ trip.description_courte }}</p>
+                    <span class="card-link">Voir nos souvenirs →</span>
+                </div>
+            </a>
+            {% empty %}
+            <p class="empty">Aucun AgroTrip réalisé pour le moment.</p>
             {% endfor %}
         </div>
     </div>

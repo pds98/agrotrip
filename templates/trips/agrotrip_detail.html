@@ -19,7 +19,7 @@
         <div class="detail-meta">
             <span>📍 {{ agrotrip.lieu }}</span>
             <span>📅 {{ agrotrip.date_debut|date:"d F Y" }}{% if agrotrip.date_fin %} → {{ agrotrip.date_fin|date:"d F Y" }}{% endif %}</span>
-            <span>💰 {{ agrotrip.prix|floatformat:0|intcomma }} FCFA</span>
+            {% if agrotrip.est_a_venir %}<span>💰 {{ agrotrip.prix|floatformat:0|intcomma }} FCFA</span>{% endif %}
         </div>
     </div>
 </section>
@@ -41,7 +41,19 @@
         <h2>À propos de cet AgroTrip</h2>
         <div class="rich-text">{{ agrotrip.description_complete|linebreaks }}</div>
 
-        {% if agrotrip.liste_activites %}
+        {% if agrotrip.programme %}
+        <h2>Programme{% if not agrotrip.est_a_venir %} réalisé{% endif %}</h2>
+        <div class="programme">
+            {% for jour in agrotrip.programme %}
+            <div class="programme-jour">
+                <div class="programme-titre">{{ jour.jour }}</div>
+                <ul>
+                    {% for act in jour.activites %}<li>{{ act }}</li>{% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        {% elif agrotrip.liste_activites %}
         <h2>Activités{% if not agrotrip.est_a_venir %} réalisées{% endif %}</h2>
         <ul class="activites">
             {% for act in agrotrip.liste_activites %}
@@ -51,7 +63,7 @@
         {% endif %}
 
         {% if agrotrip.photos.all %}
-        <h2>Galerie photos</h2>
+        <h2>{% if agrotrip.est_a_venir %}Découvrez le lien{% else %}Nos souvenirs{% endif %}</h2>
         <div class="galerie">
             {% for photo in agrotrip.photos.all %}
             <div class="galerie-item" style="background-image:url('{{ photo.cover }}');" title="{{ photo.legende }}"></div>
@@ -81,8 +93,8 @@
                 <li><span>Lieu</span><strong>{{ agrotrip.lieu }}</strong></li>
                 <li><span>Date</span><strong>{{ agrotrip.date_debut|date:"d/m/Y" }}</strong></li>
                 {% if agrotrip.date_fin %}<li><span>Fin</span><strong>{{ agrotrip.date_fin|date:"d/m/Y" }}</strong></li>{% endif %}
-                <li><span>Prix</span><strong>{{ agrotrip.prix|floatformat:0|intcomma }} FCFA</strong></li>
                 {% if agrotrip.est_a_venir %}
+                <li><span>Prix</span><strong>{{ agrotrip.prix|floatformat:0|intcomma }} FCFA</strong></li>
                 <li><span>Places restantes</span><strong>{{ agrotrip.places_restantes }}</strong></li>
                 {% else %}
                 <li><span>Participants</span><strong>{{ agrotrip.nombre_participants }}</strong></li>
