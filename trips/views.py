@@ -26,6 +26,7 @@ def home(request):
         "slides": slides,
         "agrotrips_passes": passes,
         "agrotrips_a_venir": a_venir,
+        "partenaires": Partenaire.objects.all(),
     }
     return render(request, "trips/home.html", context)
 

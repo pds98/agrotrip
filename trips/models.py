@@ -34,7 +34,18 @@ class AgroTrip(models.Model):
     date_debut = models.DateField("Date de début")
     date_fin = models.DateField("Date de fin", blank=True, null=True)
     prix = models.DecimalField(
-        "Prix (FCFA)", max_digits=10, decimal_places=0, default=0
+        "Prix indicatif (FCFA)", max_digits=10, decimal_places=0, default=0,
+        help_text="Prix affiché sur les cartes (à partir de).",
+    )
+    # Forfaits (affichés sur la page de l'AgroTrip à venir)
+    prix_simple = models.DecimalField(
+        "Forfait Simple (FCFA)", max_digits=10, decimal_places=0, default=0, blank=True
+    )
+    prix_couple = models.DecimalField(
+        "Forfait Couple (FCFA)", max_digits=10, decimal_places=0, default=0, blank=True
+    )
+    prix_familiale = models.DecimalField(
+        "Forfait Familiale (FCFA)", max_digits=10, decimal_places=0, default=0, blank=True
     )
 
     description_courte = models.CharField(
@@ -118,6 +129,16 @@ class AgroTrip(models.Model):
     def liste_activites(self):
         """Les activités sous forme de liste (une par ligne)."""
         return [a.strip() for a in self.activites.splitlines() if a.strip()]
+
+    @property
+    def forfaits(self):
+        """Liste des forfaits proposés (uniquement ceux dont le prix > 0)."""
+        donnees = [
+            ("Simple", self.prix_simple),
+            ("Couple", self.prix_couple),
+            ("Familiale", self.prix_familiale),
+        ]
+        return [{"nom": nom, "prix": prix} for nom, prix in donnees if prix and prix > 0]
 
     @property
     def programme(self):
@@ -230,10 +251,19 @@ class Registration(models.Model):
         AgroTrip, on_delete=models.CASCADE,
         related_name="inscriptions", verbose_name="AgroTrip choisi"
     )
+    FORFAIT_CHOICES = [
+        ("simple", "Simple"),
+        ("couple", "Couple"),
+        ("familiale", "Familiale"),
+    ]
+
     prenom = models.CharField("Prénom", max_length=80)
     nom = models.CharField("Nom", max_length=80)
     telephone = models.CharField("Téléphone", max_length=30)
     email = models.EmailField("Email")
+    forfait = models.CharField(
+        "Forfait choisi", max_length=20, choices=FORFAIT_CHOICES, blank=True
+    )
     nombre_places = models.PositiveSmallIntegerField("Nombre de places", default=1)
     message = models.TextField("Message / besoin particulier", blank=True)
 

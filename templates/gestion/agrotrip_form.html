@@ -14,7 +14,12 @@
             {% if form.titre.errors %}<small class="g-err">{{ form.titre.errors|striptags }}</small>{% endif %}
         </div>
         <div class="g-field"><label>Lieu *</label>{{ form.lieu }}</div>
-        <div class="g-field"><label>Prix (FCFA) *</label>{{ form.prix }}</div>
+        <div class="g-field"><label>Prix indicatif (sur les cartes) *</label>{{ form.prix }}</div>
+
+        <div class="g-field full"><label>Forfaits (laissez 0 pour masquer un forfait)</label></div>
+        <div class="g-field"><label>Forfait Simple (FCFA)</label>{{ form.prix_simple }}</div>
+        <div class="g-field"><label>Forfait Couple (FCFA)</label>{{ form.prix_couple }}</div>
+        <div class="g-field"><label>Forfait Familiale (FCFA)</label>{{ form.prix_familiale }}</div>
         <div class="g-field"><label>Date de début *</label>{{ form.date_debut }}
             {% if form.date_debut.errors %}<small class="g-err">{{ form.date_debut.errors|striptags }}</small>{% endif %}</div>
         <div class="g-field"><label>Date de fin</label>{{ form.date_fin }}</div>

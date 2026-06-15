@@ -153,6 +153,29 @@
     </div>
 </section>
 
+{# ===================== NOS PARTENAIRES (logos défilants) ====================== #}
+{% if partenaires %}
+<section class="section section-alt" id="partenaires">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Ils nous font confiance</span>
+            <h2>Nos partenaires</h2>
+        </div>
+    </div>
+    <div class="logos-marquee">
+        <div class="logos-track">
+            {% for p in partenaires %}
+            <div class="logo-item" title="{{ p.nom }}"><img src="{{ p.cover }}" alt="{{ p.nom }}"></div>
+            {% endfor %}
+            {# duplication pour un défilement continu #}
+            {% for p in partenaires %}
+            <div class="logo-item" title="{{ p.nom }}"><img src="{{ p.cover }}" alt="{{ p.nom }}"></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 {# ========================== CTA FINAL ========================= #}
 <section class="cta-band">
     <div class="container">

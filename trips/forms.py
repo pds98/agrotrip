@@ -24,7 +24,7 @@ class RegistrationForm(forms.ModelForm):
         model = Registration
         fields = [
             "prenom", "nom", "telephone", "email",
-            "nombre_places", "message",
+            "forfait", "nombre_places", "message",
         ]
         widgets = {
             "prenom": forms.TextInput(
@@ -39,6 +39,7 @@ class RegistrationForm(forms.ModelForm):
             "email": forms.EmailInput(
                 attrs={"placeholder": "vous@email.com", "class": "form-control"}
             ),
+            "forfait": forms.Select(attrs={"class": "form-control"}),
             "nombre_places": forms.NumberInput(
                 attrs={"min": 1, "value": 1, "class": "form-control"}
             ),
@@ -77,6 +78,7 @@ class AgroTripForm(forms.ModelForm):
         model = AgroTrip
         fields = [
             "titre", "lieu", "date_debut", "date_fin", "prix",
+            "prix_simple", "prix_couple", "prix_familiale",
             "description_courte", "description_complete", "activites",
             "image", "image_url",
             "nombre_participants", "places_disponibles",

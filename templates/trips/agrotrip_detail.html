@@ -41,6 +41,19 @@
         <h2>À propos de cet AgroTrip</h2>
         <div class="rich-text">{{ agrotrip.description_complete|linebreaks }}</div>
 
+        {% if agrotrip.est_a_venir and agrotrip.forfaits %}
+        <h2>Nos forfaits</h2>
+        <div class="forfaits">
+            {% for f in agrotrip.forfaits %}
+            <div class="forfait-card">
+                <div class="forfait-nom">{{ f.nom }}</div>
+                <div class="forfait-prix">{{ f.prix|floatformat:0|intcomma }} <span>FCFA</span></div>
+                <a href="#inscription" class="btn btn-outline btn-sm">Choisir</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% if agrotrip.programme %}
         <h2>Programme{% if not agrotrip.est_a_venir %} réalisé{% endif %}</h2>
         <div class="programme">

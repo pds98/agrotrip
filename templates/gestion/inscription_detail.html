@@ -12,6 +12,7 @@
     <div class="g-detail-row"><span>Téléphone</span><strong><a href="tel:{{ insc.telephone }}">{{ insc.telephone }}</a></strong></div>
     <div class="g-detail-row"><span>Email</span><strong><a href="mailto:{{ insc.email }}">{{ insc.email }}</a></strong></div>
     <div class="g-detail-row"><span>AgroTrip choisi</span><strong>{{ insc.agrotrip.titre }}</strong></div>
+    {% if insc.forfait %}<div class="g-detail-row"><span>Forfait</span><strong>{{ insc.get_forfait_display }}</strong></div>{% endif %}
     <div class="g-detail-row"><span>Nombre de places</span><strong>{{ insc.nombre_places }}</strong></div>
     <div class="g-detail-row"><span>Date d'inscription</span><strong>{{ insc.cree_le|date:"d/m/Y à H:i" }}</strong></div>
     {% if insc.message %}<div class="g-detail-row"><span>Message</span><strong>{{ insc.message }}</strong></div>{% endif %}

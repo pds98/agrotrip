@@ -161,6 +161,20 @@ STORAGES = {
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# --------------------------------------------------------------------------
+# CLOUDINARY — stockage permanent des images uploadées (recommandé en ligne)
+# --------------------------------------------------------------------------
+# Sur Render gratuit, les fichiers uploadés sont perdus à chaque déploiement
+# et ne s'affichent pas. Cloudinary règle ça : créez un compte gratuit sur
+# cloudinary.com, copiez votre "CLOUDINARY_URL" et ajoutez-la en variable
+# d'environnement sur Render. Les images uploadées y seront alors stockées.
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+if CLOUDINARY_URL:
+    INSTALLED_APPS += ["cloudinary", "cloudinary_storage"]
+    STORAGES["default"] = {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"
+    }
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --------------------------------------------------------------------------
