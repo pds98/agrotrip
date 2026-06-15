@@ -3,6 +3,7 @@ from django import forms
 
 from .models import (
     Registration, AgroTrip, Initiateur, Partenaire, APropos,
+    TripPhoto, TripVideo,
 )
 
 
@@ -129,6 +130,26 @@ class AProposForm(forms.ModelForm):
             "pourquoi_texte": forms.Textarea(attrs={"rows": 6}),
             "mission_texte": forms.Textarea(attrs={"rows": 6}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _styler(self)
+
+
+class TripPhotoForm(forms.ModelForm):
+    class Meta:
+        model = TripPhoto
+        fields = ["image", "image_url", "legende"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _styler(self)
+
+
+class TripVideoForm(forms.ModelForm):
+    class Meta:
+        model = TripVideo
+        fields = ["video_url", "titre"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

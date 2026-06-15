@@ -43,4 +43,55 @@
         <button type="submit" class="g-btn g-btn-primary">💾 Enregistrer</button>
     </div>
 </form>
+
+{% if objet %}
+{# ===================== PHOTOS ===================== #}
+<div class="g-panel">
+    <div class="g-panel-head"><h3>📷 Photos de l'AgroTrip</h3></div>
+    {% if photos %}
+    <div class="g-mini-grid">
+        {% for p in photos %}
+        <div class="g-mini-card">
+            <div class="g-mini-photo logo" style="background-image:url('{{ p.cover }}');border-radius:8px;"></div>
+            <a href="{% url 'trips:gestion_photo_supprimer' p.pk %}" class="g-btn g-btn-sm g-btn-danger"
+               onclick="return confirm('Supprimer cette photo ?')">🗑 Supprimer</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}<p class="g-muted">Aucune photo pour le moment.</p>{% endif %}
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'trips:gestion_photo_ajouter' objet.pk %}" class="g-add-media">
+        {% csrf_token %}
+        <div class="g-field"><label>Photo (depuis votre PC)</label>{{ photo_form.image }}</div>
+        <div class="g-field"><label>… ou lien web</label>{{ photo_form.image_url }}</div>
+        <div class="g-field"><label>Légende</label>{{ photo_form.legende }}</div>
+        <button type="submit" class="g-btn g-btn-primary">+ Ajouter la photo</button>
+    </form>
+</div>
+
+{# ===================== VIDÉOS ===================== #}
+<div class="g-panel">
+    <div class="g-panel-head"><h3>🎬 Vidéos de l'AgroTrip</h3></div>
+    {% if videos %}
+    <div class="g-video-list">
+        {% for v in videos %}
+        <div class="g-video-row">
+            <span>🎬 {{ v.titre|default:v.video_url|truncatechars:50 }}</span>
+            <a href="{% url 'trips:gestion_video_supprimer' v.pk %}" class="g-btn g-btn-sm g-btn-danger"
+               onclick="return confirm('Supprimer cette vidéo ?')">🗑</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}<p class="g-muted">Aucune vidéo pour le moment.</p>{% endif %}
+
+    <form method="post" action="{% url 'trips:gestion_video_ajouter' objet.pk %}" class="g-add-media">
+        {% csrf_token %}
+        <div class="g-field full"><label>Lien de la vidéo (YouTube, Vimeo ou .mp4)</label>{{ video_form.video_url }}</div>
+        <div class="g-field"><label>Titre (facultatif)</label>{{ video_form.titre }}</div>
+        <button type="submit" class="g-btn g-btn-primary">+ Ajouter la vidéo</button>
+    </form>
+</div>
+{% else %}
+<p class="g-muted" style="margin-top:1rem;">💡 Enregistrez d'abord cet AgroTrip, puis revenez le modifier pour ajouter des photos et des vidéos.</p>
+{% endif %}
 {% endblock %}

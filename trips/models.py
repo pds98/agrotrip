@@ -210,6 +210,56 @@ class TripPhoto(models.Model):
         return self.image_url
 
 
+class TripVideo(models.Model):
+    """Vidéo d'un AgroTrip (lien YouTube, Vimeo ou fichier .mp4)."""
+
+    agrotrip = models.ForeignKey(
+        AgroTrip, on_delete=models.CASCADE, related_name="videos"
+    )
+    video_url = models.URLField(
+        "Lien de la vidéo",
+        help_text="Collez un lien YouTube, Vimeo, ou un lien direct .mp4.",
+    )
+    titre = models.CharField("Titre (facultatif)", max_length=200, blank=True)
+    ordre = models.PositiveSmallIntegerField("Ordre d'affichage", default=0)
+
+    class Meta:
+        verbose_name = "Vidéo"
+        verbose_name_plural = "Vidéos"
+        ordering = ["ordre", "id"]
+
+    def __str__(self):
+        return self.titre or f"Vidéo — {self.agrotrip.titre}"
+
+    @property
+    def embed(self):
+        """
+        Retourne un dict décrivant comment afficher la vidéo :
+        - {'type': 'iframe', 'src': '...'} pour YouTube / Vimeo
+        - {'type': 'file', 'src': '...'}   pour un fichier vidéo direct (.mp4...)
+        """
+        url = (self.video_url or "").strip()
+        low = url.lower()
+
+        # YouTube
+        if "youtube.com/watch" in low and "v=" in low:
+            vid = url.split("v=")[1].split("&")[0]
+            return {"type": "iframe", "src": f"https://www.youtube.com/embed/{vid}"}
+        if "youtu.be/" in low:
+            vid = url.split("youtu.be/")[1].split("?")[0]
+            return {"type": "iframe", "src": f"https://www.youtube.com/embed/{vid}"}
+        if "youtube.com/embed/" in low:
+            return {"type": "iframe", "src": url}
+
+        # Vimeo
+        if "vimeo.com/" in low:
+            vid = url.rstrip("/").split("/")[-1].split("?")[0]
+            return {"type": "iframe", "src": f"https://player.vimeo.com/video/{vid}"}
+
+        # Fichier vidéo direct
+        return {"type": "file", "src": url}
+
+
 class Testimonial(models.Model):
     """Témoignage d'un participant à un AgroTrip."""
 

@@ -14,9 +14,11 @@ from django.utils import timezone
 
 from .forms import (
     AgroTripForm, InitiateurForm, PartenaireForm, AProposForm,
+    TripPhotoForm, TripVideoForm,
 )
 from .models import (
     AgroTrip, Registration, APropos, Initiateur, Partenaire,
+    TripPhoto, TripVideo,
 )
 
 
@@ -101,7 +103,59 @@ def agrotrip_modifier(request, pk):
     return render(request, "gestion/agrotrip_form.html", {
         "form": form, "titre_page": f"Modifier : {trip.titre}", "objet": trip,
         "rubrique": "agrotrips",
+        "photo_form": TripPhotoForm(),
+        "video_form": TripVideoForm(),
+        "photos": trip.photos.all(),
+        "videos": trip.videos.all(),
     })
+
+
+# ----- Photos d'un AgroTrip -----
+@staff_requis
+def photo_ajouter(request, pk):
+    trip = get_object_or_404(AgroTrip, pk=pk)
+    if request.method == "POST":
+        form = TripPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.agrotrip = trip
+            photo.save()
+            messages.success(request, "Photo ajoutée.")
+    return redirect("trips:gestion_agrotrip_modifier", pk=trip.pk)
+
+
+@staff_requis
+def photo_supprimer(request, pk):
+    photo = get_object_or_404(TripPhoto, pk=pk)
+    trip_pk = photo.agrotrip.pk
+    photo.delete()
+    messages.success(request, "Photo supprimée.")
+    return redirect("trips:gestion_agrotrip_modifier", pk=trip_pk)
+
+
+# ----- Vidéos d'un AgroTrip -----
+@staff_requis
+def video_ajouter(request, pk):
+    trip = get_object_or_404(AgroTrip, pk=pk)
+    if request.method == "POST":
+        form = TripVideoForm(request.POST)
+        if form.is_valid():
+            video = form.save(commit=False)
+            video.agrotrip = trip
+            video.save()
+            messages.success(request, "Vidéo ajoutée.")
+        else:
+            messages.error(request, "Lien de vidéo invalide.")
+    return redirect("trips:gestion_agrotrip_modifier", pk=trip.pk)
+
+
+@staff_requis
+def video_supprimer(request, pk):
+    video = get_object_or_404(TripVideo, pk=pk)
+    trip_pk = video.agrotrip.pk
+    video.delete()
+    messages.success(request, "Vidéo supprimée.")
+    return redirect("trips:gestion_agrotrip_modifier", pk=trip_pk)
 
 
 @staff_requis

@@ -119,6 +119,15 @@ input,select,textarea{font-family:inherit;}
 .g-mini-photo.logo{border-radius:8px;background-size:contain;background-repeat:no-repeat;background-color:#fff;}
 .g-mini-actions{display:flex;gap:.3rem;margin-top:.4rem;}
 
+/* ---- Ajout photos/vidéos ---- */
+.g-add-media{display:flex;flex-wrap:wrap;gap:.8rem;align-items:flex-end;margin-top:1rem;
+  padding-top:1rem;border-top:1px dashed var(--bord);}
+.g-add-media .g-field{flex:1;min-width:160px;}
+.g-add-media .g-field.full{flex-basis:100%;}
+.g-video-list{display:flex;flex-direction:column;gap:.5rem;}
+.g-video-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  background:var(--cr);border-radius:8px;padding:.6rem .9rem;font-size:.9rem;}
+
 .g-empty{text-align:center;padding:3rem 1rem;color:var(--gris);}
 .g-empty p{margin-bottom:1rem;}
 

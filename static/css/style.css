@@ -215,6 +215,11 @@ h1,h2,h3,h4{font-family:'Quicksand','Poppins',sans-serif;line-height:1.2;}
 .forfait-prix{font-size:1.4rem;font-weight:800;color:var(--orange);margin-bottom:.9rem;font-family:'Quicksand';}
 .forfait-prix span{font-size:.8rem;color:var(--gris);font-weight:600;}
 
+/* ---- Vidéos ---- */
+.videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1rem;}
+.video-item iframe,.video-item video{width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;display:block;}
+.video-titre{font-size:.9rem;color:var(--gris);margin-top:.4rem;}
+
 .galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem;}
 .galerie-item{height:140px;background-size:cover;background-position:center;border-radius:12px;transition:var(--transition);cursor:pointer;}
 .galerie-item:hover{transform:scale(1.04);}
@@ -260,6 +265,7 @@ h1,h2,h3,h4{font-family:'Quicksand','Poppins',sans-serif;line-height:1.2;}
 .site-footer{background:var(--vert-fonce);color:#dce8d4;padding:3rem 0 0;}
 .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:2rem;padding-bottom:2.5rem;}
 .brand-footer{font-size:1.4rem;margin-bottom:.8rem;}
+.brand-logo-footer{height:60px;width:auto;display:block;}
 .brand-footer .brand-text{color:#fff;}
 .footer-tagline{font-size:.9rem;opacity:.85;max-width:340px;}
 .site-footer h4{color:#fff;margin-bottom:1rem;font-size:1.1rem;}

@@ -23,6 +23,10 @@ urlpatterns = [
     path("gestion/agrotrips/ajouter/", dash.agrotrip_ajouter, name="gestion_agrotrip_ajouter"),
     path("gestion/agrotrips/<int:pk>/modifier/", dash.agrotrip_modifier, name="gestion_agrotrip_modifier"),
     path("gestion/agrotrips/<int:pk>/supprimer/", dash.agrotrip_supprimer, name="gestion_agrotrip_supprimer"),
+    path("gestion/agrotrips/<int:pk>/photo/", dash.photo_ajouter, name="gestion_photo_ajouter"),
+    path("gestion/photo/<int:pk>/supprimer/", dash.photo_supprimer, name="gestion_photo_supprimer"),
+    path("gestion/agrotrips/<int:pk>/video/", dash.video_ajouter, name="gestion_video_ajouter"),
+    path("gestion/video/<int:pk>/supprimer/", dash.video_supprimer, name="gestion_video_supprimer"),
 
     path("gestion/inscriptions/", dash.inscriptions, name="gestion_inscriptions"),
     path("gestion/inscriptions/<int:pk>/", dash.inscription_detail, name="gestion_inscription_detail"),

@@ -84,6 +84,23 @@
         </div>
         {% endif %}
 
+        {% if agrotrip.videos.all %}
+        <h2>Vidéos</h2>
+        <div class="videos">
+            {% for v in agrotrip.videos.all %}
+            <div class="video-item">
+                {% if v.embed.type == 'iframe' %}
+                <iframe src="{{ v.embed.src }}" frameborder="0" allowfullscreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                {% else %}
+                <video controls src="{{ v.embed.src }}"></video>
+                {% endif %}
+                {% if v.titre %}<p class="video-titre">{{ v.titre }}</p>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% if agrotrip.temoignages.all %}
         <h2>Témoignages</h2>
         <div class="temoignages">

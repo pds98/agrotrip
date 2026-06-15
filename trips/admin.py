@@ -8,7 +8,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import (
-    AgroTrip, TripPhoto, Testimonial, Registration,
+    AgroTrip, TripPhoto, TripVideo, Testimonial, Registration,
     APropos, Initiateur, Partenaire,
 )
 
@@ -17,6 +17,12 @@ class TripPhotoInline(admin.TabularInline):
     model = TripPhoto
     extra = 1
     fields = ("image", "image_url", "legende")
+
+
+class TripVideoInline(admin.TabularInline):
+    model = TripVideo
+    extra = 1
+    fields = ("video_url", "titre", "ordre")
 
 
 class TestimonialInline(admin.StackedInline):
@@ -37,7 +43,7 @@ class AgroTripAdmin(admin.ModelAdmin):
     list_editable = ("statut", "a_la_une")
     prepopulated_fields = {"slug": ("titre",)}
     date_hierarchy = "date_debut"
-    inlines = [TripPhotoInline, TestimonialInline]
+    inlines = [TripPhotoInline, TripVideoInline, TestimonialInline]
     save_on_top = True
 
     fieldsets = (

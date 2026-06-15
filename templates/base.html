@@ -49,8 +49,12 @@
     <div class="container footer-grid">
         <div>
             <div class="brand brand-footer">
-                <span class="brand-leaf">🌱</span>
-                <span class="brand-text">Agro<span class="brand-accent">Trip</span></span>
+                <img src="{% static 'img/logo.png' %}" alt="AgroTrip" class="brand-logo-footer"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+                <span class="brand-fallback" style="display:none;align-items:center;gap:.4rem;">
+                    <span class="brand-leaf">🌱</span>
+                    <span class="brand-text">Agro<span class="brand-accent">Trip</span></span>
+                </span>
             </div>
             <p class="footer-tagline">L'agrotourisme, une nouvelle manière de voyager et
             d'apprendre au cœur des exploitations agricoles, à travers des activités
